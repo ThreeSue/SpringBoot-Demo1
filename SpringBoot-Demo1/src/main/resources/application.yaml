@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: SpringBoot-Demo1
+    group: 1.0
+    version: 1.0
+  datasource:
+#   主协议:子协议://主机:端口号/数据库名
+    url: jdbc:mysql://IP+端口/spring-boot-2412
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+# 基本类型
+server:
+  port: 9090
+# 数组类型
+hobby:
+  - 打篮球
+  - 打排球
+  - 打桌球
+# 对象类型
+student:
+  name: 张三
+  age: 33
+  sex: 男
+  friend:
+    - 李四
+    - 张三
+    - 赵六

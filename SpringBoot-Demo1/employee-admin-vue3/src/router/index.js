@@ -2,13 +2,11 @@ import { createWebHashHistory, createRouter } from 'vue-router'
 
 import EmployeeView from '@/views/EmployeeView.vue'
 import DepartmentView from '@/views/DepartmentView.vue'
-import LoginView from '@/views/LoginView.vue'
 
 const routes = [
-    { path: '/', redirect: '/employee' },
+    { path: '/', redirect:'/employee'},
     { path: '/employee', component: EmployeeView },
     { path: '/department', component: DepartmentView },
-    { path: '/login', component: LoginView },
 ]
 
 const router = createRouter({
