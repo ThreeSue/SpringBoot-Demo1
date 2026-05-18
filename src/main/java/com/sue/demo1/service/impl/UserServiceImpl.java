@@ -1,5 +1,11 @@
 package com.sue.demo1.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sue.demo1.mapper.UserMapper;
+import com.sue.demo1.model.UserModel;
+import com.sue.demo1.service.UserService;
+import org.springframework.stereotype.Service;
+
 /**
  * @Author: 蘇世睿
  * @Class: 移動互聯2412
@@ -9,5 +15,8 @@ package com.sue.demo1.service.impl;
  * @Date: 2026/5/13
  * @Time: 11:52
  */
-public class UserServiceImpl {
+@Service
+public class UserServiceImpl extends ServiceImpl<UserMapper, UserModel>
+        implements UserService {
+
 }

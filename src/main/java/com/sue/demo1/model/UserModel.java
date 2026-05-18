@@ -15,4 +15,18 @@ import lombok.Data;
 @Data
 @TableName("sys_user")
 public class UserModel {
+
+    private Integer id;
+
+    private String account;
+
+    private String password;
+
+    private String passwordHash;
+
+    private String nickname;
+
+    private String avatar;
 }
+
+

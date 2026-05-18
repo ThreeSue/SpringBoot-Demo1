@@ -43,7 +43,7 @@ public class EmployeeTest {
         employee.setName("王四");
         employee.setHiredate(LocalDate.of(2022, 1, 1));
         employee.setGender("男");
-        employee.setDepartment("技术部");
+        employee.setDepartment(1);
         employeeMapper1.addEmployee(employee);
     }
 
@@ -64,7 +64,7 @@ public class EmployeeTest {
         employee.setName("修改test");
         employee.setHiredate(LocalDate.of(2023, 5, 20));
         employee.setGender("男");
-        employee.setDepartment("运营部");
+        employee.setDepartment(1);
         employeeMapper1.updateEmployee(employee);
     }
 
