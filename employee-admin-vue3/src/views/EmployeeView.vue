@@ -1,5 +1,5 @@
 <script setup>
-
+import http from '@/utils/http'
 import axios from 'axios'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -19,7 +19,7 @@ const searchForm = ref({
 
 const fetchData = () => {
   // 获取到用户输入的筛选内容
-  axios.get("http://localhost:9090/employee", {
+  http.get("/employee", {
     params: {
       name: searchForm.value.name,
       gender: searchForm.value.gender,
@@ -27,7 +27,8 @@ const fetchData = () => {
       hiredate: searchForm.value.hiredate
     }
   }).then((resp) => {
-    tableData.value = resp.data
+    console.log(resp)
+    tableData.value = resp
   })
 }
 // 页面加载时先调用一次fetchData函数，获取数据
@@ -48,7 +49,7 @@ const handleDelete = (scope) => {
       console.log(scope)
       console.log("id", scope.row.id)
       console.log("id", scope.row.name)
-      axios.delete(`http://localhost:9090/employee/${id}`).then(() => {
+      http.delete(`/employee/${id}`).then(() => {
         ElMessage({
           message: '员工删除成功',
           type: 'success',
@@ -80,7 +81,7 @@ const form = ref({
 const handleAdd = () => {
 
   if (form.value.id) {
-    axios.put("http://localhost:9090/employee", form.value).then(() => {
+    http.put("/employee", form.value).then(() => {
       // 提示
       ElMessage({
         message: '员工修改成功',
@@ -92,7 +93,7 @@ const handleAdd = () => {
       fetchData();
     })
   } else {
-    axios.post("http://localhost:9090/employee", form.value).then(() => {
+    http.post("/employee", form.value).then(() => {
       // 提示
       ElMessage({
         message: '员工新增成功',
@@ -120,8 +121,8 @@ const openDialog = (id) => {
   if (id) {
     dialogTitle.value = '修改员工'
     // id有值，走修改逻辑 resp就是employeeModel对象
-    axios.get(`http://localhost:9090/employee/${id}`).then((resp) => {
-      form.value = resp.data // 将employeeModel对象赋值给form
+    http.get(`/employee/${id}`).then((resp) => {
+      form.value = resp // 将employeeModel对象赋值给form
       dialogVisible.value = true
     })
   } else {
@@ -147,8 +148,8 @@ const reset = () => {
 const deptData = ref([])
 
 const fetchDeptData = () =>{
-  axios.get("http://localhost:9090/department").then((resp) => {
-    deptData.value = resp.data
+  http.get("/department").then((resp) => {
+    deptData.value = resp
     console.log(deptData.value);
   })
   

@@ -1,5 +1,5 @@
 <script setup>
-
+import http from '@/utils/http'
 import { ref } from "vue";  
 import axios from "axios";
 const captchaImg = ref('')
@@ -11,14 +11,14 @@ const uuid = ref('');
 
 
 const getCaptcha = () => {
-  axios.get("http://localhost:9090/genCaptcha").then((resp) => {
-    captchaImg.value = resp.data.img;
-    uuid.value = resp.data.uuid;
+  http.get("/genCaptcha").then((resp) => {
+    captchaImg.value = resp.img;
+    uuid.value = resp.uuid;
   });
 }
 
 const login = () => {
-  axios.post("http://localhost:9090/login",{
+  http.post("/login",{
     account: account.value,
     password: password.value,
     imageCode: imageCode.value,

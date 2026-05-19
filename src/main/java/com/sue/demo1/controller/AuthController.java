@@ -8,6 +8,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.sue.demo1.model.req.LoginReq;
 import com.sue.demo1.model.resp.CaptchaResp;
+import com.sue.demo1.utils.R;
 import jakarta.servlet.ServletResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class AuthController {
     private HashMap<String, Double> resultMap = new HashMap<>();
 
     @GetMapping("/genCaptcha")
-    public CaptchaResp getCaptchaCode(ServletResponse response) throws IOException {
+    public R<CaptchaResp> getCaptchaCode(ServletResponse response) throws IOException {
         // 定义验证码的类型 和生成的长度
         ShearCaptcha captcha = CaptchaUtil.createShearCaptcha(200, 100);
         // 设置生成器为则运算的形式(数字)
@@ -47,13 +48,13 @@ public class AuthController {
         // 想办法把图片用字符串表示（Base64编码）
         String imgBase64 = captcha.getImageBase64Data();
         captchaResp.setImg(imgBase64);
-        return captchaResp;
+        return R.ok(captchaResp);
 
     }
 
     //uuid account password imageCode
     @PostMapping("/login")
-    public void login(@RequestBody LoginReq loginReq) {
+    public R<Void> login(@RequestBody LoginReq loginReq) {
         // 只关注数据
         // 关心我的 错误 错误提示
         // 引入一个统一返回值的类
@@ -64,12 +65,12 @@ public class AuthController {
             String imageCode = loginReq.getImageCode();
             double inputCode = NumberUtil.parseDouble(imageCode);
             if (codeResult == inputCode) {
-                System.out.println("验证码正确");
+                return R.ok();
             } else {
-                System.out.println("验证码错误");
+                return R.fail("验证码错误");
             }
         } catch (RuntimeException e) {
-            System.out.println("验证码错误");
+            return R.fail("验证码错误");
         }
 
 

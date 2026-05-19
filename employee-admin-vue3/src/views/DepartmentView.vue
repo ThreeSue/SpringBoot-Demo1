@@ -1,5 +1,6 @@
 <script setup>
 
+import http from '@/utils/http'
 import axios from 'axios'
 import {ref} from 'vue'
 import {ElMessage, ElMessageBox} from "element-plus";
@@ -15,14 +16,14 @@ const searchForm = ref({
 })
 
 const fetchData = () =>{
-  axios.get("http://localhost:9090/department",{
+  http.get("/department",{
     params:{
       departmentName:searchForm.value.departmentName,
       manager:searchForm.value.manager,
       location:searchForm.value.location
     }
   }).then((resp) => {
-    tableData.value = resp.data
+    tableData.value = resp
   })
 }
 
@@ -42,7 +43,7 @@ const handleDelete = (scope) => {
         console.log(scope)
         console.log("id",scope.row.id)
         console.log("id",scope.row.departmentName)
-        axios.delete(`http://localhost:9090/department/${id}`).then(() => {
+        http.delete(`/department/${id}`).then(() => {
           ElMessage({
             message: '部门删除成功',
             type: 'success',
@@ -69,7 +70,7 @@ const form = ref({
 const handleAdd = () => {
 
   if(form.value.id){
-    axios.put("http://localhost:9090/department", form.value).then(() => {
+    http.put("/department", form.value).then(() => {
       ElMessage({
         message: '部门修改成功',
         type: 'success',
@@ -78,7 +79,7 @@ const handleAdd = () => {
       fetchData();
     })
   }else{
-    axios.post("http://localhost:9090/department", form.value).then(() => {
+    http.post("/department", form.value).then(() => {
       ElMessage({
         message: '部门新增成功',
         type: 'success',
@@ -100,7 +101,7 @@ const openDialog = (id) => {
 
   if(id){
     dialogTitle.value = '修改部门';
-    axios.get(`http://localhost:9090/department/${id}`).then((resp) => {
+    http.get(`/department/${id}`).then((resp) => {
       form.value = resp.data;
       dialogVisible.value = true;
     })

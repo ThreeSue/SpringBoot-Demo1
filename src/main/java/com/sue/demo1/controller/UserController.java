@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sue.demo1.model.UserModel;
 import com.sue.demo1.service.UserService;
+import com.sue.demo1.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,30 +29,33 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public List<UserModel> getUserList(String account, String nickname) {
+    public R<List<UserModel>> getUserList(String account, String nickname) {
         QueryWrapper<UserModel> wrapper = new QueryWrapper<>();
         wrapper.like(StrUtil.isNotBlank(account), "account", account);
         wrapper.like(StrUtil.isNotBlank(nickname), "nickname", nickname);
-        return userService.list(wrapper);
+        return R.ok(userService.list(wrapper));
     }
 
     @PostMapping
-    public void addUser(@RequestBody UserModel userModel) {
+    public R<Void> addUser(@RequestBody UserModel userModel) {
         userService.save(userModel);
+        return R.ok();
     }
 
     @PutMapping
-    public void updateUser(@RequestBody UserModel userModel) {
+    public R<Void> updateUser(@RequestBody UserModel userModel) {
         userService.updateById(userModel);
+        return R.ok();
     }
 
     @GetMapping("{id}")
-    public UserModel getUserById(@PathVariable Integer id) {
-        return userService.getById(id);
+    public R<UserModel> getUserById(@PathVariable Integer id) {
+        return R.ok(userService.getById(id));
     }
 
     @DeleteMapping("{id}")
-    public void delUser(@PathVariable Integer id) {
+    public R<Void> delUser(@PathVariable Integer id) {
         userService.removeById(id);
+        return R.ok();
     }
 }

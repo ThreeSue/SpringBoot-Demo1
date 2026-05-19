@@ -9,6 +9,7 @@ import com.sue.demo1.model.EmployeeModel;
 import com.sue.demo1.model.req.EmployeeSearchReq;
 import com.sue.demo1.service.DepartmentService;
 import com.sue.demo1.service.EmployeeService;
+import com.sue.demo1.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -34,7 +35,7 @@ public class EmployeeController {
      * 获取所有员工信息
      */
     @GetMapping
-    public List<EmployeeModel> getEmployeeList(EmployeeSearchReq req){
+    public R<List<EmployeeModel>> getEmployeeList(EmployeeSearchReq req){
         System.out.println(req);
         String department = req.getDepartment();
         String gender = req.getGender();
@@ -62,7 +63,7 @@ public class EmployeeController {
 
         });
 
-        return empList;
+        return R.ok(empList);
     }
 
     // application/json form-data
@@ -72,16 +73,17 @@ public class EmployeeController {
      * @param employeeModel
      */
     @PostMapping
-    public void addEmployee(@RequestBody EmployeeModel employeeModel){
+    public R<Void> addEmployee(@RequestBody EmployeeModel employeeModel){
         employeeService.save(employeeModel);
+        return R.ok();
     }
 
     /**
      * 根据员工id查询员工信息
      */
     @GetMapping("{id}")
-    public EmployeeModel getEmployeeById(@PathVariable Integer id){
-        return employeeService.getById(id);
+    public R<EmployeeModel> getEmployeeById(@PathVariable Integer id){
+        return R.ok(employeeService.getById(id));
     }
 
     /**
@@ -89,8 +91,9 @@ public class EmployeeController {
      * @param employeeModel
      */
     @PutMapping
-    public void updateEmployee(@RequestBody EmployeeModel employeeModel){
+    public R<Void> updateEmployee(@RequestBody EmployeeModel employeeModel){
         employeeService.updateById(employeeModel);
+        return R.ok();
     }
 
     // body json @RequestBody
@@ -102,8 +105,9 @@ public class EmployeeController {
      * @param id 员工id
      */
     @DeleteMapping("{id}")
-    public void delEmployee(@PathVariable Integer id){
+    public R<Void> delEmployee(@PathVariable Integer id){
         employeeService.removeById(id);
+        return R.ok();
     }
 
 //    下节课：聚合查询 联表查询 分组查询

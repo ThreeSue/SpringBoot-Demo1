@@ -1,4 +1,5 @@
 <script setup>
+import http from '@/utils/http'
 import axios from 'axios'
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -12,15 +13,15 @@ const searchForm = ref({
 const tableData = ref([])
 
 const fetchData = () => {
-	axios
-		.get('http://localhost:9090/user', {
+	http
+		.get('/user', {
 			params: {
 				account: searchForm.value.account,
 				nickname: searchForm.value.nickname,
 			},
 		})
 		.then((resp) => {
-			tableData.value = resp.data
+			tableData.value = resp
 		})
 }
 
@@ -53,8 +54,8 @@ const openDialog = (id) => {
 
 	if (id) {
 		dialogTitle.value = '修改用户'
-		axios.get(`http://localhost:9090/user/${id}`).then((resp) => {
-			form.value = resp.data
+		http.get(`/user/${id}`).then((resp) => {
+			form.value = resp
 			dialogVisible.value = true
 		})
 	} else {
@@ -67,8 +68,8 @@ const handleSubmit = () => {
 	submitLoading.value = true
 
 	if (form.value.id) {
-		axios
-			.put('http://localhost:9090/user', form.value)
+		http
+			.put('/user', form.value)
 			.then(() => {
 				ElMessage({
 					message: '用户修改成功',
@@ -84,8 +85,8 @@ const handleSubmit = () => {
 				submitLoading.value = false
 			})
 	} else {
-		axios
-			.post('http://localhost:9090/user', form.value)
+		http
+			.post('/user', form.value)
 			.then(() => {
 				ElMessage({
 					message: '用户新增成功',
@@ -110,7 +111,7 @@ const handleDelete = (scope) => {
 		type: 'warning',
 	})
 		.then(() => {
-			axios.delete(`http://localhost:9090/user/${scope.row.id}`).then(() => {
+			http.delete(`/user/${scope.row.id}`).then(() => {
 				ElMessage({
 					message: '用户删除成功',
 					type: 'success',
