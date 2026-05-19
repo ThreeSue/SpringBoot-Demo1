@@ -25,7 +25,7 @@ import java.util.HashMap;
  */
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class AuthController {
 
     private HashMap<String, Double> resultMap = new HashMap<>();
@@ -54,6 +54,10 @@ public class AuthController {
     //uuid account password imageCode
     @PostMapping("/login")
     public void login(@RequestBody LoginReq loginReq) {
+        // 只关注数据
+        // 关心我的 错误 错误提示
+        // 引入一个统一返回值的类
+        // data 数据 msg 错误提示 code 200/500 用于区分一个请求成功还是失败
         // 取出之前发验证码时的结果，准备与用户提交的验证码输入结果进行匹配
         try{
             Double codeResult = resultMap.get(loginReq.getUuid());

@@ -15,6 +15,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.sue.demo1.model.DepartmentModel;
 import com.sue.demo1.model.req.DepartmentSearchReq;
 import com.sue.demo1.service.DepartmentService;
+import com.sue.demo1.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/department")
-@CrossOrigin
+//@CrossOrigin
 public class DepartmentController {
 
     @Autowired
@@ -35,31 +36,33 @@ public class DepartmentController {
      * 获取部门列表
      */
     @GetMapping
-    public List<DepartmentModel> getDepartmentList(DepartmentSearchReq req) {
-        String departmentName = req.getDepartmentName();
-        String manager = req.getManager();
-        String location = req.getLocation();
-        LambdaQueryWrapper<DepartmentModel> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(StrUtil.isNotBlank(departmentName), DepartmentModel::getDepartmentName, departmentName);
-        wrapper.like(StrUtil.isNotBlank(manager), DepartmentModel::getManager, manager);
-        wrapper.like(StrUtil.isNotBlank(location), DepartmentModel::getLocation, location);
-        return departmentService.list(wrapper);
-    }
-
-    /**
-     * 添加部门
-     */
-    @PostMapping
-    public void addDepartment(@RequestBody DepartmentModel departmentModel) {
-        departmentService.save(departmentModel);
+    public R<List<DepartmentModel>> getDepartmentList(DepartmentSearchReq req) {
+//        String departmentName = req.getDepartmentName();
+//        String manager = req.getManager();
+//        String location = req.getLocation();
+//        LambdaQueryWrapper<DepartmentModel> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.like(StrUtil.isNotBlank(departmentName), DepartmentModel::getDepartmentName, departmentName);
+//        wrapper.like(StrUtil.isNotBlank(manager), DepartmentModel::getManager, manager);
+//        wrapper.like(StrUtil.isNotBlank(location), DepartmentModel::getLocation, location);
+//        return departmentService.list(wrapper);
+        return R.ok(departmentService.list());
     }
 
     /**
      * 根据id查询部门信息
      */
     @GetMapping("{id}")
-    public DepartmentModel getDepartmentById(@PathVariable Integer id){
-        return departmentService.getById(id);
+    public R<DepartmentModel> getDepartmentById(@PathVariable Integer id){
+        return R.ok(departmentService.getById(id));
+    }
+
+    /**
+     * 添加部门
+     */
+    @PostMapping
+    public R<Void> addDepartment(@RequestBody DepartmentModel departmentModel) {
+        departmentService.save(departmentModel);
+        return R.ok();
     }
 
 
@@ -67,16 +70,18 @@ public class DepartmentController {
      * 修改部门
      */
     @PutMapping
-    public void updateDepartment(@RequestBody DepartmentModel departmentModel) {
+    public R<Void> updateDepartment(@RequestBody DepartmentModel departmentModel) {
         departmentService.updateById(departmentModel);
+        return R.ok();
     }
 
     /**
      * 根据id删除部门
      */
     @DeleteMapping("{id}")
-    public void delDepartment(@PathVariable Integer id) {
+    public R<Void> delDepartment(@PathVariable Integer id) {
         departmentService.removeById(id);
+        return R.ok();
     }
     
 

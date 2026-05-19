@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/employee")
-@CrossOrigin // 防止前后端 跨域 问题
+//@CrossOrigin // 防止前后端 跨域 问题
 public class EmployeeController {
 
     @Autowired
