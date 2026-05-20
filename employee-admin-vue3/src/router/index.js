@@ -3,6 +3,7 @@ import { createWebHashHistory, createRouter } from 'vue-router'
 import EmployeeView from '@/views/EmployeeView.vue'
 import DepartmentView from '@/views/DepartmentView.vue'
 import LoginView from '@/views/LoginView.vue'
+import RegisterView from '@/views/RegisterView.vue'
 import MainLayout from '@/layout/MainLayout.vue'
 import UserView from "@/views/UserView.vue";
 // 子路由
@@ -16,6 +17,7 @@ const routes = [
 
     ]},
     { path: '/login', component: LoginView },
+    { path: '/register', component: RegisterView },
 ]
 
 const router = createRouter({

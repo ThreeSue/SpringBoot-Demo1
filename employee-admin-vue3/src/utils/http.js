@@ -11,11 +11,12 @@ http.interceptors.response.use(function (response) {
 
     if (response.data.code !== 200) {
         ElMessage.error(response.data.msg);
+        return Promise.reject(response.data);
     }
 
     return response.data.data;
   }, function (error) {
-
+    ElMessage.error('请求失败');
     return Promise.reject(error);
   });
 

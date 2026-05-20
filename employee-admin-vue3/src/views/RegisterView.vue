@@ -1,71 +1,79 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 import http from '@/utils/http'
 
 const router = useRouter()
 
-const captchaImg = ref('')
 const account = ref('')
 const password = ref('')
-const imageCode = ref('')
+const rePassword = ref('')
+const code = ref('')
 const uuid = ref('')
-const loading = ref(false)
+const captchaImg = ref('')
 
-const getCaptcha = () => {
-  http.get('/genCaptcha').then((resp) => {
-    captchaImg.value = resp.img
+const getRegisterCaptcha = () => {
+  http.get('/genRegisterCaptcha').then((resp) => {
     uuid.value = resp.uuid
+    captchaImg.value = resp.img
   })
 }
 
-const login = () => {
-  loading.value = true
-  http.post('/login', {
+const register = () => {
+  http.post('/register', {
     account: account.value,
     password: password.value,
-    imageCode: imageCode.value,
+    rePassword: rePassword.value,
     uuid: uuid.value,
-  }).finally(() => {
-    loading.value = false
+    code: code.value,
+  }).then(() => {
+    ElMessage.success('注册成功')
+    router.push('/login')
+  }).catch(() => {
+    getRegisterCaptcha()
   })
 }
 
-getCaptcha()
+getRegisterCaptcha()
 </script>
 
 <template>
-  <div class="login-page">
-    <el-card class="login-card">
+  <div class="register-page">
+    <el-card class="register-card">
       <template #header>
-        <div class="login-title">登录</div>
+        <div class="register-title">注册</div>
       </template>
 
-      <el-form label-width="80px">
+      <el-form label-width="90px">
         <el-form-item label="账号">
           <el-input v-model="account" placeholder="请输入账号" clearable />
         </el-form-item>
 
         <el-form-item label="密码">
-          <el-input v-model="password" placeholder="请输入密码" show-password type="password" />
+          <el-input v-model="password" placeholder="请输入密码" type="password" show-password />
+        </el-form-item>
+
+        <el-form-item label="确认密码">
+          <el-input v-model="rePassword" placeholder="请再次输入密码" type="password" show-password />
         </el-form-item>
 
         <el-form-item label="验证码">
           <div class="captcha-row">
-            <el-input v-model="imageCode" placeholder="请输入验证码" clearable />
+            <el-input v-model="code" placeholder="请输入验证码" clearable />
             <img
-              @click="getCaptcha"
               :src="captchaImg"
               class="captcha-img"
               alt="验证码"
               title="点击刷新验证码"
+              @click="getRegisterCaptcha"
             />
           </div>
         </el-form-item>
 
         <el-form-item>
-          <el-button @click="login" type="primary" :loading="loading">登录</el-button>
-          <el-button @click="router.push('/register')">去注册</el-button>
+          <el-button type="primary" @click="register">注册</el-button>
+          <el-button @click="router.push('/login')">返回登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -73,19 +81,18 @@ getCaptcha()
 </template>
 
 <style scoped>
-.login-page {
+.register-page {
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  min-height: 70vh;
   padding-top: 80px;
+  min-height: 70vh;
 }
 
-.login-card {
-  width: 420px;
+.register-card {
+  width: 430px;
 }
 
-.login-title {
+.register-title {
   font-size: 20px;
   font-weight: 600;
   text-align: center;
