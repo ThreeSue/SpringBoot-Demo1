@@ -1,9 +1,9 @@
 package com.sue.demo1.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sue.demo1.mapper.UserMapper;
-import com.sue.demo1.model.UserModel;
-import com.sue.demo1.service.UserService;
+import com.sue.demo1.mapper.SysUserMapper;
+import com.sue.demo1.model.SysUserModel;
+import com.sue.demo1.service.SysUserService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @Time: 11:52
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserModel>
-        implements UserService {
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserModel>
+        implements SysUserService {
 
 }

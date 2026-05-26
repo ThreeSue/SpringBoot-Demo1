@@ -1,7 +1,7 @@
 package com.sue.demo1.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sue.demo1.model.UserModel;
+import com.sue.demo1.model.SysUserModel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -15,5 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 
 @Mapper
-public interface UserMapper extends BaseMapper<UserModel> {
+public interface SysUserMapper extends BaseMapper<SysUserModel> {
 }

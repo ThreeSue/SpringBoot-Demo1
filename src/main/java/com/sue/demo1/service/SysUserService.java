@@ -1,7 +1,7 @@
 package com.sue.demo1.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.sue.demo1.model.UserModel;
+import com.sue.demo1.model.SysUserModel;
 
 /**
  * @Author: 蘇世睿
@@ -12,5 +12,5 @@ import com.sue.demo1.model.UserModel;
  * @Date: 2026/5/13
  * @Time: 11:52
  */
-public interface UserService extends IService<UserModel> {
+public interface SysUserService extends IService<SysUserModel> {
 }
